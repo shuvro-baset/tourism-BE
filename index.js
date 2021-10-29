@@ -25,12 +25,11 @@ async function run() {
         
       // GET API
       app.get('/home', async (req, res) => {
+        const cursor = toursCollection.find({});
+            const tours = await cursor.toArray();
+            res.send(tours);
         
-        res.send(
-            "database connected..."
-        );
-
-
+      });
       // POST API
       app.post('/add-tours', async (req, res) => {
         const tours = req.body;
@@ -39,7 +38,6 @@ async function run() {
         const result = await toursCollection.insertOne(tours);
         console.log(result);
         res.json(result)
-    });
     });
      
     } finally {
