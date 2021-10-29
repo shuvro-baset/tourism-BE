@@ -20,7 +20,8 @@ async function run() {
     try {
       await client.connect();
       const database = client.db("travencyDb");
-      const servicesCollection = database.collection("services");
+      const toursCollection = database.collection("tours");
+      const bookingToursCollection = database.collection("bookingTours")
         
       // GET API
       app.get('/home', async (req, res) => {
@@ -28,6 +29,17 @@ async function run() {
         res.send(
             "database connected..."
         );
+
+
+      // POST API
+      app.post('/add-tours', async (req, res) => {
+        const tours = req.body;
+        console.log('hit the post api', tours);
+
+        const result = await toursCollection.insertOne(tours);
+        console.log(result);
+        res.json(result)
+    });
     });
      
     } finally {
