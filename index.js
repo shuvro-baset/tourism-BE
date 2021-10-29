@@ -39,6 +39,14 @@ async function run() {
         console.log(result);
         res.json(result)
     });
+    // get tour for booking 
+      app.get('/tour-book/:id', async (req, res) => {
+        const id = req.params.id;
+        const query = { _id: ObjectId(id) };
+        const tour = await toursCollection.findOne(query);
+        console.log('load tour with id: ', id, tour);
+        res.send(tour);
+      })
      
     } finally {
     //   await client.close();
