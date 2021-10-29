@@ -47,6 +47,13 @@ async function run() {
         console.log('load tour with id: ', id, tour);
         res.send(tour);
       })
+    // post for booking tour
+    app.post('/tour-book/:id', async (req, res) => {
+      const tourBookingData = req.body;
+      const tourBooking = await bookingToursCollection.insertOne(tourBookingData);
+      console.log('load tour with id: ', id, tour);
+      res.json(tourBooking);
+    })
      
     } finally {
     //   await client.close();
