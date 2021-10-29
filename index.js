@@ -26,8 +26,8 @@ async function run() {
       // GET API
       app.get('/home', async (req, res) => {
         const cursor = toursCollection.find({});
-            const tours = await cursor.toArray();
-            res.send(tours);
+        const tours = await cursor.toArray();
+        res.send(tours);
         
       });
       // POST API
@@ -53,6 +53,19 @@ async function run() {
       const tourBooking = await bookingToursCollection.insertOne(tourBookingData);
       console.log('load tour with id: ', id, tour);
       res.json(tourBooking);
+    })
+    // get my tours
+    app.get('/my-tours', async (req, res) => {
+      const cursor = bookingToursCollection.find({})
+      const tours = await cursor.toArray();
+      res.send(tours)
+
+    })
+    // get my tours
+    app.get('/manage-all-tours', async (req, res) => {
+      const cursor = bookingToursCollection.find({})
+      const tours = await cursor.toArray();
+      res.send(tours)
     })
      
     } finally {
