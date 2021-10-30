@@ -46,7 +46,7 @@ async function run() {
         const tour = await toursCollection.findOne(query);
         console.log('load tour with id: ', id, tour);
         res.send(tour);
-      })
+      });
     // post for booking tour
     app.post('/tour-book/:id', async (req, res) => {
       const tourBookingData = req.body;
@@ -78,6 +78,26 @@ async function run() {
 
       res.json(result);
   })
+  // update user API
+  app.put('/update-status/:id', async (req, res) => {
+    const id = req.params.id;
+    console.log('updating.... ', id)
+    const status = req.body.status;
+    const query = { _id: ObjectId(id) }; // filtering user's object
+    const options = { upsert: true }; // update and insert
+
+
+    const tour = await bookingToursCollection.findOne(query);
+    console.log(tour);
+
+    const updateDoc = { // set data
+        $set: {
+            status: status
+        },
+    };
+    const result = await bookingToursCollection.updateOne(query, updateDoc, options) // updating 
+    res.json(result) // send response to frontend
+  });
     } finally {
     //   await client.close();
     }
