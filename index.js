@@ -98,7 +98,7 @@ async function run() {
       const result = await bookingToursCollection.updateOne(query, updateDoc, options) // updating 
       res.json(result) // send response to frontend
     });
-    
+
     } finally {
     //   await client.close();
     }
@@ -111,7 +111,7 @@ async function run() {
 
 
 app.get('/', (req, res) => {
-    res.send("welcome to travency  ..... ")
+    res.send("welcome to travency server site ..... ")
 })
 
 
