@@ -17,6 +17,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 
 async function run() {
+  
     try {
       await client.connect();
       // database name
@@ -83,7 +84,7 @@ async function run() {
       const result = await bookingToursCollection.deleteOne(query);
       res.json(result);
   })
-  
+
     // UPDATE  API
     app.put('/update-status/:id', async (req, res) => {
       const id = req.params.id;
