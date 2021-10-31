@@ -11,5 +11,4 @@
 * It's first travel agency in Bangladesh.
 * We also have a license from the government.
 
-
 - Please visit our website, you can get some valuable information here. If you have a plan for tour SP Travency will be the best choice for you.
