@@ -19,18 +19,21 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
       await client.connect();
+      // database name
       const database = client.db("travencyDb");
+      // Tours collections
       const toursCollection = database.collection("tours");
+      // Booking Tour collection
       const bookingToursCollection = database.collection("bookingTours")
         
-      // GET API
+      // GET API for all tour collections
       app.get('/home', async (req, res) => {
         const cursor = toursCollection.find({});
         const tours = await cursor.toArray();
         res.send(tours);
         
       });
-      // POST API
+      // POST API for new tour
       app.post('/add-tours', async (req, res) => {
         const tours = req.body;
         console.log('hit the post api', tours);
@@ -39,7 +42,7 @@ async function run() {
         console.log(result);
         res.json(result)
     });
-    // get tour for booking 
+    // GET API for single tour information for booking 
       app.get('/tour-book/:id', async (req, res) => {
         const id = req.params.id;
         const query = { _id: ObjectId(id) };
@@ -47,21 +50,21 @@ async function run() {
         console.log('load tour with id: ', id, tour);
         res.send(tour);
       });
-    // post for booking tour
+    // POST API for booking tour
     app.post('/tour-book/:id', async (req, res) => {
       const tourBookingData = req.body;
       const tourBooking = await bookingToursCollection.insertOne(tourBookingData);
       console.log('load tour with id: ', id, tour);
       res.json(tourBooking);
     })
-    // get my tours
+    // GET API for single user tours
     app.get('/my-tours', async (req, res) => {
       const cursor = bookingToursCollection.find({})
       const tours = await cursor.toArray();
       res.send(tours)
 
     })
-    // get my tours
+    // GET API for all booking tours
     app.get('/manage-all-tours', async (req, res) => {
       const cursor = bookingToursCollection.find({})
       const tours = await cursor.toArray();
@@ -78,26 +81,24 @@ async function run() {
 
       res.json(result);
   })
-  // update user API
-  app.put('/update-status/:id', async (req, res) => {
-    const id = req.params.id;
-    console.log('updating.... ', id)
-    const status = req.body.status;
-    const query = { _id: ObjectId(id) }; // filtering user's object
-    const options = { upsert: true }; // update and insert
+    // UPDATE  API
+    app.put('/update-status/:id', async (req, res) => {
+      const id = req.params.id;
+      console.log('updating.... ', id)
+      const status = req.body.status;
+      const query = { _id: ObjectId(id) }; // filtering user's object
+      const options = { upsert: true }; // update and insert
+      const tour = await bookingToursCollection.findOne(query);
 
-
-    const tour = await bookingToursCollection.findOne(query);
-    console.log(tour);
-
-    const updateDoc = { // set data
-        $set: {
-            status: status
-        },
-    };
-    const result = await bookingToursCollection.updateOne(query, updateDoc, options) // updating 
-    res.json(result) // send response to frontend
-  });
+      const updateDoc = { // set data
+          $set: {
+              status: status
+          },
+      };
+      const result = await bookingToursCollection.updateOne(query, updateDoc, options) // updating 
+      res.json(result) // send response to frontend
+    });
+    
     } finally {
     //   await client.close();
     }
