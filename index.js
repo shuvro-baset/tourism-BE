@@ -33,30 +33,34 @@ async function run() {
         res.send(tours);
         
       });
+
       // POST API for new tour
       app.post('/add-tours', async (req, res) => {
         const tours = req.body;
         console.log('hit the post api', tours);
 
         const result = await toursCollection.insertOne(tours);
-        console.log(result);
         res.json(result)
     });
+
     // GET API for single tour information for booking 
       app.get('/tour-book/:id', async (req, res) => {
         const id = req.params.id;
         const query = { _id: ObjectId(id) };
         const tour = await toursCollection.findOne(query);
-        console.log('load tour with id: ', id, tour);
         res.send(tour);
       });
+
+
     // POST API for booking tour
-    app.post('/tour-book/:id', async (req, res) => {
+    app.post('/tour-book', async (req, res) => {
       const tourBookingData = req.body;
       const tourBooking = await bookingToursCollection.insertOne(tourBookingData);
-      console.log('load tour with id: ', id, tour);
-      res.json(tourBooking);
+      console.log('load tour with id: ', res);
+      res.send(tourBooking);
     })
+
+
     // GET API for single user tours
     app.get('/my-tours', async (req, res) => {
       const cursor = bookingToursCollection.find({})
@@ -64,6 +68,7 @@ async function run() {
       res.send(tours)
 
     })
+
     // GET API for all booking tours
     app.get('/manage-all-tours', async (req, res) => {
       const cursor = bookingToursCollection.find({})
@@ -76,15 +81,13 @@ async function run() {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await bookingToursCollection.deleteOne(query);
-
-      console.log('deleting user with id ', result);
-
       res.json(result);
   })
+  
     // UPDATE  API
     app.put('/update-status/:id', async (req, res) => {
       const id = req.params.id;
-      console.log('updating.... ', id)
+      // console.log('updating.... ', id)
       const status = req.body.status;
       const query = { _id: ObjectId(id) }; // filtering user's object
       const options = { upsert: true }; // update and insert
