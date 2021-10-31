@@ -11,4 +11,12 @@
 * It's first travel agency in Bangladesh.
 * We also have a license from the government.
 
+# features
+- this is server side that has some features- 
+    - POST API for new Tour Trip additions.
+    - GET API for showing all tour trip in home page.
+    - User can book a tour trip when clicked any tour trip and also give some required information.
+    - User can See all booking tours and also can delete booking tours.
+    - Admin can delete any user booking tour and also can update the booking status.
+    
 - Please visit our website, you can get some valuable information here. If you have a plan for tour SP Travency will be the best choice for you.
